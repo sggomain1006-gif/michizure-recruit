@@ -1,0 +1,129 @@
+/* ===== チャットボット（右下の丸ボタン＋窓）===== */
+/* 位置は追従バナー（.l-fvBanner）の上に積む。バナーの上端＝bottom＋ミチの画像の高さ（SP 12+79rem／PC 4+157rem） */
+.chatBot {
+  --chat-dur: .28s;
+  --chat-ease: cubic-bezier(.2, .8, .2, 1);
+  font-family: var(--ff-jp);
+  color: var(--c-ink);
+}
+
+/* ---------- 丸ボタン ---------- */
+.chatBot__trigger {
+  position: fixed; z-index: 10;
+  right: 10rem; bottom: calc(100rem + env(safe-area-inset-bottom));
+  width: 58rem; height: 58rem; min-width: 48px; min-height: 48px;
+  padding: 0; border: 2rem solid var(--c-primary); border-radius: 50%;
+  background: var(--c-white);
+  box-shadow: 0 4rem 12rem rgba(var(--c-scrim), .22);
+  cursor: pointer;
+  transition: transform .2s ease, opacity var(--chat-dur) ease, visibility 0s linear 0s;
+}
+.chatBot__trigger:hover { transform: translateY(-2rem); }
+.chatBot__trigger:focus-visible { outline: 3rem solid var(--c-accent); outline-offset: 3rem; }
+.chatBot__triggerImg { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 18%; transform: scale(1.35); transform-origin: 50% 30%; }
+.chatBot__triggerFace { display: block; width: 100%; height: 100%; overflow: hidden; border-radius: 50%; }
+.chatBot__badge {
+  position: absolute; top: -6rem; left: -10rem;
+  padding: 3rem 6rem; background: var(--c-accent); color: var(--c-primary);
+  font-size: 10rem; font-weight: 900; line-height: 1; white-space: nowrap;
+}
+.is-chatOpen .chatBot__trigger { opacity: 0; visibility: hidden; transition: opacity var(--chat-dur) ease, visibility 0s linear var(--chat-dur); }
+
+/* ---------- 窓 ---------- */
+.chatBot__window {
+  position: fixed; z-index: 1000000; inset: 0;
+  display: flex; flex-direction: column;
+  height: 100vh; height: 100dvh;
+  background: var(--c-paper);
+  opacity: 0; visibility: hidden; transform: translateY(24rem);
+  transition: opacity var(--chat-dur) ease, transform var(--chat-dur) var(--chat-ease), visibility 0s linear var(--chat-dur);
+}
+.chatBot__window.is-open { opacity: 1; visibility: visible; transform: none; transition: opacity var(--chat-dur) ease, transform var(--chat-dur) var(--chat-ease); }
+
+.chatBot__head {
+  display: flex; align-items: center; gap: 10rem; flex-shrink: 0;
+  padding: 10rem 8rem 10rem 14rem; padding-top: calc(10rem + env(safe-area-inset-top));
+  background: var(--c-primary); color: var(--c-white);
+}
+.chatBot__avatar { flex-shrink: 0; width: 38rem; height: 38rem; overflow: hidden; border-radius: 50%; background: var(--c-white); }
+.chatBot__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; transform: scale(1.35); transform-origin: 50% 30%; }
+.chatBot__title { margin: 0; font-size: 16rem; font-weight: 900; line-height: 1.3; }
+.chatBot__sub { margin: 2rem 0 0; font-size: 11rem; font-weight: 500; line-height: 1.3; opacity: .85; }
+.chatBot__close {
+  display: flex; align-items: center; justify-content: center; margin-left: auto; flex-shrink: 0;
+  width: 44px; height: 44px; padding: 0; border: 0; background: none; color: inherit; cursor: pointer;
+}
+.chatBot__close:focus-visible { outline: 2px solid var(--c-accent); outline-offset: -4px; }
+.chatBot__close svg { width: 20rem; height: 20rem; }
+
+.chatBot__log { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 16rem 14rem 8rem; }
+.chatBot__msg { display: flex; margin: 0 0 12rem; }
+.chatBot__msg--user { justify-content: flex-end; }
+.chatBot__bubble {
+  max-width: 84%; margin: 0; padding: 10rem 13rem;
+  font-size: 14rem; line-height: 1.75; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.chatBot__msg--bot .chatBot__bubble { background: var(--c-white); border: 1rem solid var(--c-primary); }
+.chatBot__msg--user .chatBot__bubble { background: var(--c-primary); color: var(--c-white); }
+.chatBot__msg--error .chatBot__bubble { border-color: #C0392B; }
+
+/* 返答待ち（3つの点） */
+.chatBot__typing { display: inline-flex; gap: 5rem; padding: 4rem 0; }
+.chatBot__typing span { width: 6rem; height: 6rem; border-radius: 50%; background: var(--c-primary); opacity: .3; animation: chatDot 1s infinite; }
+.chatBot__typing span:nth-child(2) { animation-delay: .15s; }
+.chatBot__typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes chatDot { 0%, 60%, 100% { opacity: .3; } 30% { opacity: 1; } }
+
+/* おすすめの質問 */
+.chatBot__suggest { display: flex; flex-wrap: wrap; gap: 6rem; margin: 0 0 12rem; padding: 0; list-style: none; }
+.chatBot__chip {
+  padding: 7rem 11rem; border: 1rem solid var(--c-primary); background: var(--c-paper); color: var(--c-primary);
+  font: inherit; font-size: 12rem; font-weight: 700; line-height: 1.4; cursor: pointer;
+}
+.chatBot__chip:hover { background: var(--c-primary); color: var(--c-white); }
+.chatBot__chip:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+/* 入力欄 */
+.chatBot__form { flex-shrink: 0; padding: 10rem 12rem calc(8rem + env(safe-area-inset-bottom)); border-top: 1rem solid rgba(31, 58, 112, .2); background: var(--c-white); }
+.chatBot__row { display: flex; align-items: flex-end; gap: 8rem; }
+.chatBot__input {
+  flex: 1; min-width: 0; max-height: 96rem; margin: 0; padding: 9rem 10rem;
+  border: 1rem solid var(--c-primary); border-radius: 0; background: var(--c-white); color: var(--c-ink);
+  font: inherit; font-size: 16px; line-height: 1.5; resize: none;
+}
+.chatBot__input:focus { outline: 2px solid var(--c-accent); outline-offset: 0; }
+.chatBot__send {
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 44px; height: 44px; padding: 0; border: 0; background: var(--c-accent); color: var(--c-primary); cursor: pointer;
+}
+.chatBot__send:disabled { opacity: .45; cursor: default; }
+.chatBot__send:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+.chatBot__send svg { width: 22px; height: 22px; fill: currentColor; }
+.chatBot__note { margin: 6rem 0 0; font-size: 10rem; line-height: 1.5; color: rgba(49, 50, 50, .7); }
+
+/* ---------- PC：右下に浮かぶ窓 ---------- */
+@media (min-width: 769px) {
+  .chatBot__trigger { right: 18rem; bottom: 172rem; width: 76rem; height: 76rem; border-width: 3rem; }
+  .chatBot__badge { top: -8rem; left: -14rem; padding: 4rem 8rem; font-size: 13rem; }
+  .chatBot__window {
+    inset: auto 24rem 24rem auto;
+    width: 420rem; max-width: calc(100vw - 48rem); height: min(640rem, calc(100dvh - 48rem));
+    border: 2rem solid var(--c-primary);
+    box-shadow: 0 12rem 40rem rgba(var(--c-scrim), .28);
+    transform: translateY(16rem) scale(.98); transform-origin: 100% 100%;
+  }
+  .chatBot__head { padding: 12rem 10rem 12rem 16rem; }
+  .chatBot__avatar { width: 44rem; height: 44rem; }
+  .chatBot__title { font-size: 18rem; }
+  .chatBot__sub { font-size: 12rem; }
+  .chatBot__log { padding: 18rem 16rem 8rem; }
+  .chatBot__bubble { font-size: 15rem; }
+  .chatBot__chip { font-size: 13rem; }
+  .chatBot__note { font-size: 11rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatBot__trigger, .chatBot__window, .chatBot__window.is-open { transition: none; }
+  .chatBot__window { transform: none; }
+  .chatBot__typing span { animation: none; opacity: .6; }
+}

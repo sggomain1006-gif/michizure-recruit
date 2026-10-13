@@ -1,0 +1,144 @@
+/* 予約フォーム・完了ページ。トークンと部品は style.css / sections.css / add.css を継承。新規トークンはエラー色のみ */
+:root { --c-error: #B3261E; --f-fs: max(16px, 16rem); --f-fs-s: max(14px, 14rem); --f-fs-xs: max(12px, 12rem); --f-tap: max(48px, 48rem); }
+
+.page-form .l-header { position: relative; }
+.f-headerBack {
+  display: inline-flex; align-items: center; min-height: 44px; margin: 0 16rem 0 auto; padding: 0 16rem;
+  border: 1px solid rgba(255, 255, 255, .7); border-radius: 2rem; color: #fff;
+  font-size: var(--f-fs-s); font-weight: 700; letter-spacing: .06em; white-space: nowrap;
+}
+.page-form .header { height: 64rem; min-height: 64px; }
+.page-form .header__company { padding-left: 16rem; }
+
+.f-main { position: relative; z-index: 1; background: var(--c-paper); padding: 28rem 0 72rem; }
+.f-inner { width: 100%; max-width: 640px; margin: 0 auto; padding: 0 max(20px, 22rem); }
+.f-lead { margin: 0 0 28rem; font-size: var(--f-fs); line-height: 2; letter-spacing: .04em; font-weight: 500; }
+.f-noscript { margin: 0 0 20px; color: var(--c-error); font-size: var(--f-fs-s); }
+.page-form .subHeading { margin-top: 8rem; }
+
+/* 選考の流れ（今どこか）*/
+.f-steps { margin: 0 0 20rem; }
+.f-steps ol { display: flex; gap: 4px; margin: 0; padding: 18px 0 0; list-style: none; }
+.f-steps li {
+  position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 8px 2px 8px; background: #fff; border: 1px solid rgba(31, 58, 112, .35); color: var(--c-primary);
+  font-size: var(--f-fs-xs); font-weight: 700; line-height: 1.3; text-align: center;
+}
+.f-steps__no { font-family: var(--ff-en); font-size: var(--f-fs-s); font-weight: 800; line-height: 1; }
+.f-steps__name { letter-spacing: .02em; }
+.f-steps li.is-current { background: var(--c-primary); border-color: var(--c-primary); color: #fff; }
+.f-steps li.is-done { background: transparent; color: #6A6B6B; }
+.f-steps__here {
+  position: absolute; top: -17px; left: 50%; transform: translateX(-50%); padding: 2px 8px;
+  background: var(--c-accent); color: var(--c-ink); font-size: var(--f-fs-xs); font-weight: 900; line-height: 1.3; white-space: nowrap;
+}
+
+/* フォーム */
+.f-reqNote { display: flex; align-items: center; gap: 8px; margin: 0 0 24rem; font-size: var(--f-fs-s); font-weight: 500; }
+.f-group { min-width: 0; margin: 0 0 40rem; padding: 0; border: 0; }
+.f-legend { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 0; font-size: max(18px, 19rem); font-weight: 900; line-height: 1.4; color: var(--c-primary); }
+.f-legend__no { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-primary); color: #fff; font-family: var(--ff-en); font-size: 16px; font-weight: 800; line-height: 1; }
+.f-tag { display: inline-block; margin-left: 8px; padding: 2px 8px; border: 1px solid rgba(49, 50, 50, .45); color: #4a4b4b; font-size: var(--f-fs-xs); font-weight: 700; line-height: 1.4; letter-spacing: .04em; vertical-align: middle; }
+.f-tag--req { margin-left: 0; border-color: var(--c-primary); background: var(--c-primary); color: #fff; }
+.f-legend .f-tag--req, .f-label .f-tag--req, .f-check__text .f-tag--req { margin-left: 8px; }
+.f-reqNote .f-tag--req { margin-left: 0; }
+
+.f-field { min-width: 0; margin: 0 0 24px; padding: 0; border: 0; }
+.f-label { display: block; margin: 0 0 8px; padding: 0; font-size: var(--f-fs); font-weight: 700; line-height: 1.5; color: var(--c-ink); }
+.f-hint, .f-slotHint { margin: -2px 0 8px; font-size: var(--f-fs-s); font-weight: 500; line-height: 1.7; color: #5b5c5c; }
+.f-input {
+  display: block; width: 100%; min-height: var(--f-tap); padding: 10px 14px;
+  border: 1px solid rgba(49, 50, 50, .55); border-radius: 2px; background: #fff; color: var(--c-ink);
+  font-family: inherit; font-size: max(16px, 16rem); font-weight: 500; line-height: 1.5; letter-spacing: .02em;
+  -webkit-appearance: none; appearance: none;
+}
+.f-input::placeholder { color: #767777; opacity: 1; }
+.f-input:focus { outline: 2px solid var(--c-primary); outline-offset: 1px; border-color: var(--c-primary); }
+.f-textarea { min-height: 128px; resize: vertical; }
+select.f-input { padding-right: 36px; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231F3A70' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center; }
+.f-selects { display: flex; gap: 12px; }
+.f-select { flex: 1; min-width: 0; }
+.f-input[aria-invalid="true"] { border: 2px solid var(--c-error); padding: 9px 13px; }
+
+/* エラー（文言＋太い枠。色だけに頼らない）*/
+.f-error { display: none; margin: 8px 0 0; font-size: var(--f-fs-s); font-weight: 700; line-height: 1.6; color: var(--c-error); }
+.f-error.is-on { display: block; }
+.f-error.is-on::before { content: '入力エラー　'; font-weight: 900; }
+.f-status { display: none; margin: 0 0 16px; padding: 12px 14px; border: 2px solid var(--c-error); background: #fff; color: var(--c-error); font-size: var(--f-fs-s); font-weight: 700; line-height: 1.6; }
+.f-status.is-on { display: block; }
+
+/* ラジオ・チェック共通 */
+.f-slot input, .f-check input {
+  flex: none; width: 24px; height: 24px; margin: 0; border: 2px solid var(--c-primary); background: #fff; -webkit-appearance: none; appearance: none;
+}
+.f-slot input { border-radius: 50%; }
+.f-slot input:checked { background: radial-gradient(circle, var(--c-primary) 0 45%, #fff 50%); }
+.f-check input { border-radius: 2px; }
+.f-check input:checked { background: var(--c-primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E") center / 100% no-repeat; }
+.f-slot input:focus-visible, .f-check input:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 3px; }
+.f-slot input[aria-invalid="true"], .f-check input[aria-invalid="true"] { border-color: var(--c-error); }
+
+.f-slot {
+  display: flex; align-items: center; gap: 14px; min-height: var(--f-tap); padding: 14px 16px; cursor: pointer;
+  background: #fff; border: 2px solid rgba(31, 58, 112, .25);
+}
+.f-slot:has(input:checked) { border-color: var(--c-primary); }
+.f-slot:has(input:focus-visible) { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+.f-slot__body { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; min-width: 0; }
+.f-slots { display: grid; gap: 10px; }
+.f-slot__date { font-size: max(18px, 18rem); font-weight: 900; color: var(--c-primary); }
+.f-slot__time { font-size: var(--f-fs); font-weight: 700; font-family: var(--ff-en), var(--ff-jp); }
+.f-slot__place { flex-basis: 100%; font-size: var(--f-fs-s); font-weight: 500; }
+.f-slot__full { margin-left: auto; padding: 2px 10px; background: var(--c-ink); color: #fff; font-size: var(--f-fs-s); font-weight: 900; }
+.f-slot.is-full { background: transparent; border-style: dashed; cursor: not-allowed; }
+.f-slot.is-full .f-slot__date, .f-slot.is-full .f-slot__time, .f-slot.is-full .f-slot__place { color: #6A6B6B; text-decoration: line-through; }
+.f-slot.is-full input { border-color: #9a9b9b; background: #ecebe8; }
+.f-slot.is-full .f-slot__body { flex: 1; }
+
+/* 個人情報 */
+.f-privacy { margin: 0 0 16px; background: #fff; border: 1px solid rgba(31, 58, 112, .35); }
+.f-privacy summary { display: flex; align-items: center; min-height: var(--f-tap); padding: 8px 16px; cursor: pointer; font-size: var(--f-fs-s); font-weight: 700; color: var(--c-primary); list-style: none; }
+.f-privacy summary::-webkit-details-marker { display: none; }
+.f-privacy summary::after { content: '＋'; margin-left: auto; font-size: 18px; }
+.f-privacy[open] summary::after { content: '－'; }
+.f-privacy summary:focus-visible { outline: 2px solid var(--c-primary); outline-offset: -4px; }
+.f-privacy ul { margin: 0; padding: 0 16px 16px 36px; font-size: var(--f-fs-s); font-weight: 500; line-height: 1.8; list-style: disc; }
+.f-check { display: flex; align-items: center; gap: 14px; min-height: var(--f-tap); padding: 6px 0; cursor: pointer; }
+.f-check__text { font-size: var(--f-fs); font-weight: 700; line-height: 1.5; }
+
+.f-submit { margin-top: 8px; }
+.f-submit .button, .f-back .button { display: flex; margin: 0 auto; }
+.f-submit .button { cursor: pointer; }
+.f-submit .button[disabled] { opacity: .6; cursor: progress; }
+/* ボット除け（人には見えない欄。埋まっていたら記録しない） */
+.f-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* 完了ページ */
+.f-summary { margin: 0 0 36rem; padding: 0; background: #fff; border: 1px solid var(--c-primary); }
+.f-summary div { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; }
+.f-summary div + div { border-top: 1.5px dashed rgba(31, 58, 112, .35); }
+.f-summary dt { font-size: var(--f-fs-xs); font-weight: 700; color: #5b5c5c; }
+.f-summary dd { margin: 0; font-size: max(18px, 18rem); font-weight: 900; line-height: 1.5; color: var(--c-primary); }
+.f-next__h { margin: 0 0 16px; font-size: max(18px, 19rem); font-weight: 900; color: var(--c-primary); }
+.f-next { counter-reset: n; margin: 0 0 40rem; padding: 0; list-style: none; }
+.f-next li { position: relative; counter-increment: n; margin: 0 0 18px; padding: 0 0 0 44px; }
+.f-next li::before { content: counter(n); position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: var(--c-accent); color: var(--c-ink); font-family: var(--ff-en); font-size: 16px; font-weight: 800; }
+.f-next h3 { margin: 0 0 4px; font-size: var(--f-fs); font-weight: 900; color: var(--c-primary); line-height: 1.6; }
+.f-next p { margin: 0; font-size: var(--f-fs-s); font-weight: 500; line-height: 1.9; }
+
+/* フッター（簡略）*/
+.page-form .footer { padding-top: 36rem; }
+.page-form .footer__logo { margin-bottom: 20rem; }
+.f-footerLink { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--f-fs-s); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+
+@media (min-width: 769px) {
+  .f-main { padding: 56rem 0 120rem; }
+    .f-slots { grid-template-columns: 1fr 1fr; }
+  .f-headerBack { margin-right: 40rem; }
+  .page-form .header { padding: 12rem 0; height: auto; }
+  .page-form .header__company { padding-left: 40rem; margin-right: 0; }
+  .f-steps li { flex-direction: row; justify-content: center; gap: 8px; padding: 10px 6px; }
+  .page-form .footer { padding: 60rem 63rem 20rem; }
+}
+@media (hover: hover) { .f-headerBack:hover, .f-footerLink:hover { opacity: .6; } .f-slot:not(.is-full):hover { border-color: var(--c-primary); } }
+@media (prefers-reduced-motion: reduce) { .f-slot { transition: none; } }
