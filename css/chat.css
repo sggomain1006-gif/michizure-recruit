@@ -29,20 +29,24 @@
 }
 .is-chatOpen .chatBot__trigger { opacity: 0; visibility: hidden; transition: opacity var(--chat-dur) ease, visibility 0s linear var(--chat-dur); }
 
-/* ---------- 窓 ---------- */
+/* ---------- 窓（スマホも全画面にせず、右下に浮かぶ小さめの窓にする） ---------- */
 .chatBot__window {
-  position: fixed; z-index: 1000000; inset: 0;
+  position: fixed; z-index: 1000000;
+  right: 10rem; bottom: calc(10rem + env(safe-area-inset-bottom));
   display: flex; flex-direction: column;
-  height: 100vh; height: 100dvh;
+  width: min(296rem, calc(100vw - 20rem));
+  height: min(440rem, calc(100vh - 110rem)); height: min(440rem, calc(100dvh - 110rem));
   background: var(--c-paper);
-  opacity: 0; visibility: hidden; transform: translateY(24rem);
+  border: 2rem solid var(--c-primary);
+  box-shadow: 0 10rem 30rem rgba(var(--c-scrim), .28);
+  opacity: 0; visibility: hidden; transform: translateY(16rem) scale(.98); transform-origin: 100% 100%;
   transition: opacity var(--chat-dur) ease, transform var(--chat-dur) var(--chat-ease), visibility 0s linear var(--chat-dur);
 }
 .chatBot__window.is-open { opacity: 1; visibility: visible; transform: none; transition: opacity var(--chat-dur) ease, transform var(--chat-dur) var(--chat-ease); }
 
 .chatBot__head {
   display: flex; align-items: center; gap: 10rem; flex-shrink: 0;
-  padding: 10rem 8rem 10rem 14rem; padding-top: calc(10rem + env(safe-area-inset-top));
+  padding: 8rem 4rem 8rem 12rem;
   background: var(--c-primary); color: var(--c-white);
 }
 .chatBot__avatar { flex-shrink: 0; width: 38rem; height: 38rem; overflow: hidden; border-radius: 50%; background: var(--c-white); }
@@ -84,7 +88,7 @@
 .chatBot__chip:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
 
 /* 入力欄 */
-.chatBot__form { flex-shrink: 0; padding: 10rem 12rem calc(8rem + env(safe-area-inset-bottom)); border-top: 1rem solid rgba(31, 58, 112, .2); background: var(--c-white); }
+.chatBot__form { flex-shrink: 0; padding: 10rem 12rem 8rem; border-top: 1rem solid rgba(31, 58, 112, .2); background: var(--c-white); }
 .chatBot__row { display: flex; align-items: flex-end; gap: 8rem; }
 .chatBot__input {
   flex: 1; min-width: 0; max-height: 96rem; margin: 0; padding: 9rem 10rem;

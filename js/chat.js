@@ -8,7 +8,7 @@
     sub: 'ミチヅレ新卒採用の案内係',
     greeting: 'こんにちは。ミチヅレ新卒採用の案内係、ツバメのミチです。説明会や募集要項について、わかる範囲でお答えします。',
     suggestions: ['説明会の日程は？', '給与はいくらですか？', '地元で働けますか？', '書類選考はありますか？'],
-    note: 'AIが自動で回答しています。架空の会社の練習作品です。',
+    note: 'AIが自動で回答しています。',
     placeholder: '質問を入力してください',
     avatar: 'assets/img/54_michi_greet-240.webp',
     errorAnswer: 'うまくお答えできませんでした。時間をおいてもう一度お試しください。',
@@ -252,7 +252,6 @@
     els.trigger.setAttribute('aria-expanded', 'true');
     root.classList.add('is-chatOpen');
     if (matchMedia(SP_QUERY).matches) {
-      root.style.overflow = 'hidden'; /* 全画面のあいだ後ろのページを動かさない */
       els.window.focus({ preventScroll: true }); /* スマホではキーボードを勝手に出さない */
     } else {
       els.input.focus({ preventScroll: true });
@@ -265,7 +264,6 @@
     els.window.inert = true;
     els.trigger.setAttribute('aria-expanded', 'false');
     root.classList.remove('is-chatOpen');
-    root.style.overflow = '';
     els.trigger.focus({ preventScroll: true });
   }
 
@@ -285,7 +283,7 @@
   }
 
   /* CSS を読み終えてから部品を出す（読み込み途中の崩れた丸ボタンを見せない）。ページの表示を優先して load 後に始める */
-  var CSS_HREF = 'css/chat.css?v=1';
+  var CSS_HREF = 'css/chat.css?v=3';
   function init() {
     var link = document.createElement('link');
     link.rel = 'stylesheet';

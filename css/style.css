@@ -77,29 +77,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .header__btnEn { font-size: 15rem; font-weight: 700; line-height: 1; letter-spacing: 1.5rem; text-transform: uppercase; white-space: nowrap; }
 .header__btn--seminar .header__btnEn { font-size: 12rem; letter-spacing: .6rem; }
 .header__btnJp { margin-top: 6rem; font-size: 10rem; font-weight: 700; line-height: .8; letter-spacing: .4rem; white-space: nowrap; }
-.header__burger {
-  flex: none; width: 62rem; height: 64rem; background: #fff;
-  display: flex; align-items: center; justify-content: center;
-}
-.header__burgerLines, .header__burgerLines::before, .header__burgerLines::after {
-  display: block; width: 16rem; height: 1.5rem; background: var(--c-primary);
-}
-.header__burgerLines { position: relative; }
-.header__burgerLines::before, .header__burgerLines::after { content: ''; position: absolute; left: 0; }
-.header__burgerLines::before { top: -5rem; }
-.header__burgerLines::after { top: 5rem; }
-.is-open .header__burgerLines { background: transparent; }
-.is-open .header__burgerLines::before { top: 0; transform: rotate(45deg); }
-.is-open .header__burgerLines::after { top: 0; transform: rotate(-45deg); }
-.header__burger:focus-visible { outline-offset: -4rem; }
-
 .header__nav {
   display: none;
   position: absolute; top: 80rem; left: 0; right: 0;
   margin: 0 16rem; padding: 28rem 20rem 28rem 40rem;
   background: var(--c-ink); border-radius: 2rem;
 }
-.is-open .header__nav { display: block; }
 .header__nav a { display: block; padding: 20rem 0; font-size: 15rem; font-weight: 700; line-height: 1.4; letter-spacing: .06em; color: #fff; transition: opacity .4s; }
 
 /* ===== FV ===== */
@@ -221,7 +204,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .header__nav { order: 2; }
   .header__btnEn, .header__btn--seminar .header__btnEn { font-size: 16rem; letter-spacing: .1em; }
   .header__btnJp { margin-top: 4rem; font-size: 13rem; letter-spacing: .52rem; line-height: 1; }
-  .header__burger { display: none; }
 }
 
 @media (hover: hover) {

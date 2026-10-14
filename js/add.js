@@ -6,7 +6,7 @@
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const isReduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- C FAQ（複数開可・1問目だけ開いた状態から） ---------- */
+  /* ---------- C FAQ（複数開可・最初の1問だけ開いた状態から） ---------- */
   const initFaq = () => {
     document.querySelectorAll('.faq__q').forEach((q) => {
       q.addEventListener('click', () => {

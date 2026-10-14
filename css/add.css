@@ -292,3 +292,9 @@ html.cv-off .l-topPostcard, html.cv-off .l-topRequirements, html.cv-off .l-topFl
   .biz__rookie { font-size: 14rem; }
   .biz__rookieLabel { font-size: 12rem; }
 }
+
+/* 働き方セクション：数字で見るミチヅレの下、ミチの上に置く説明会の予約ボタン（FAQ の下と同じボタン） */
+.topWork__textarea .topWork__cta { margin-bottom: 36rem; }
+@media (min-width: 769px) {
+  .topWork__textarea .topWork__cta { margin-bottom: 48rem; }
+}

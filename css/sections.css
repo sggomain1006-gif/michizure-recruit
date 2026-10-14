@@ -409,3 +409,10 @@
   .station--interview { padding: 90rem 0 40rem; }
   .station--interview .station__band { background-size: 100% 4rem; background-image: linear-gradient(90deg, #fff calc(50% - 40rem), transparent calc(50% - 40rem) calc(50% + 40rem), #fff calc(50% + 40rem)); }
 }
+
+/* インタビューの扉：横長のPC画面（16:9。1280×720・1366×768・1920×1080）では扉が1画面に収まらない。
+   文字も余白も画面の幅で大きさが決まるので、画面の高さでなく縦横比で判定し、見出しの上下の余白だけ詰める
+   下の余白（右下の固定バナーよけ）は触らない。基底の PC ルールより後ろに置くこと */
+@media (min-width: 769px) and (min-aspect-ratio: 17/10) {
+  .station--interview { padding: 50rem 0 20rem; }
+}

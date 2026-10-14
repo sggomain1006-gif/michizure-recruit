@@ -22,25 +22,6 @@
   const root = document.documentElement;
   const isReduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- header / hamburger ---------- */
-  const initNav = () => {
-    const header = document.querySelector('.l-header');
-    const burger = header && header.querySelector('.header__burger');
-    if (!burger) return;
-    const setOpen = (isOpen) => {
-      header.classList.toggle('is-open', isOpen);
-      burger.setAttribute('aria-expanded', String(isOpen));
-      burger.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
-    };
-    burger.addEventListener('click', () => setOpen(burger.getAttribute('aria-expanded') !== 'true'));
-    header.querySelectorAll('.header__nav a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
-    document.addEventListener('keydown', (e) => {
-      if (e.key !== 'Escape' || !header.classList.contains('is-open')) return;
-      setOpen(false);
-      burger.focus();
-    });
-  };
-
   /* ---------- fixed banner (show after 40% of FV) ---------- */
   const initBanner = () => {
     const fv = document.querySelector('.js-fv');
@@ -301,7 +282,6 @@
     io.observe(slider);
   };
 
-  initNav();
   initBanner();
   initStatementRoute();
   const start = () => whenIdle(() => { bootScroll(); bootInterview(); });

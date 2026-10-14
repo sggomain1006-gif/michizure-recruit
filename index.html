@@ -11,12 +11,12 @@
 <link rel="preload" as="font" type="font/woff2" href="fonts/noto-fv-900.woff2" crossorigin>
 <link rel="preload" as="image" media="(max-width:768px)" href="assets/img/fv-sp-1024.webp" imagesrcset="assets/img/fv-sp-768.webp 768w, assets/img/fv-sp-1024.webp 1024w" imagesizes="100vw" fetchpriority="high">
 <link rel="preload" as="image" media="(min-width:769px)" href="assets/img/fv-pc-1672.webp" imagesrcset="assets/img/fv-pc-1280.webp 1280w, assets/img/fv-pc-1672.webp 1672w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=12">
+<link rel="stylesheet" href="css/style.css?v=13">
 <link rel="stylesheet" href="fonts/google-fonts.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="css/sections.css?v=42" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="css/add.css?v=26" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/sections.css?v=44" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/add.css?v=27" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="vendor/swiper-bundle.min.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="fonts/google-fonts.css"><link rel="stylesheet" href="css/sections.css?v=42"><link rel="stylesheet" href="vendor/swiper-bundle.min.css"></noscript>
+<noscript><link rel="stylesheet" href="fonts/google-fonts.css"><link rel="stylesheet" href="css/sections.css?v=44"><link rel="stylesheet" href="vendor/swiper-bundle.min.css"></noscript>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="swallow" viewBox="0 0 24 24"><path d="M23.4 11.6C22.3 10.3 20.8 9.6 19 9.8 17.4 9.9 16 10.4 14.8 11 12.6 8.4 9.4 4.8 5.2 2.2 6.4 6 8 9 9.6 11.8L0.8 9.6 5.8 13.4 0.8 17.6 10.8 14.4C12.4 15.2 17.2 15.6 19.8 14.4 21.2 13.7 22.6 12.8 23.4 11.6Z"/></symbol></svg>
@@ -28,9 +28,6 @@
       <span class="header__btnEn">SEMINAR</span>
       <span class="header__btnJp"><span class="spOnly">説明会</span><span class="pcOnly">説明会の予約はこちら</span></span>
     </a>
-    <button class="header__burger" type="button" aria-expanded="false" aria-controls="gnav" aria-label="メニューを開く">
-      <span class="header__burgerLines" aria-hidden="true"></span>
-    </button>
     <nav class="header__nav" id="gnav" aria-label="メインメニュー">
       <ul>
         <li><a href="#message">メッセージ</a></li>
@@ -164,6 +161,7 @@
 <li class="data__ticket"><p class="data__stub"><span class="data__num data__num--word">なし</span></p><div class="data__body"><p class="data__label">固定残業代</p><p class="data__note">初任給の金額は募集要項に記載しています</p></div></li>
         </ul>
       </div>
+      <a class="button button--cv topWork__cta" href="seminar.html"><span class="button__inner"><span class="button__text" aria-hidden="true">説明会の予約はこちら</span><span class="button__text">説明会の予約はこちら</span></span><span class="button__icon"><svg class="swallow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#swallow"/></svg></span></a>
       <p class="michiSay"><img class="michiSay__img" src="assets/img/53_michi_map-240.webp" width="240" height="210" alt="" loading="lazy" decoding="async"><span class="michiSay__bubble">入社してからの道のりはこの先に</span></p>
     </div>
   </section>
@@ -335,12 +333,12 @@
       <hgroup class="subHeading"><h3 class="subHeading__jp" id="flow-h">選考の流れ</h3><p class="subHeading__en" aria-hidden="true">Steps</p></hgroup>
       <ol class="flow" aria-label="選考の流れ">
 <li class="flow__ticket flow__ticket--start"><span class="flow__no" aria-hidden="true">1</span><h4 class="flow__name">説明会の予約</h4><p class="flow__desc">日程を選んで予約します</p><span class="flow__stamp" aria-hidden="true">ここから</span></li>
-<li class="flow__ticket"><span class="flow__no" aria-hidden="true">2</span><h4 class="flow__name">会社説明会</h4><p class="flow__desc">会場かオンラインで参加します</p></li>
-<li class="flow__ticket"><span class="flow__no" aria-hidden="true">3</span><h4 class="flow__name">エントリー</h4><p class="flow__desc">いいと思ったら応募します</p></li>
+<li class="flow__ticket"><span class="flow__no" aria-hidden="true">2</span><h4 class="flow__name">説明会に参加</h4><p class="flow__desc">日付に応じて会場またはオンラインをお選びいただけます</p></li>
+<li class="flow__ticket"><span class="flow__no" aria-hidden="true">3</span><h4 class="flow__name">エントリー</h4><p class="flow__desc">エントリー方法は説明会でご説明します</p></li>
 <li class="flow__ticket"><span class="flow__no" aria-hidden="true">4</span><h4 class="flow__name">面接（2回）</h4><p class="flow__desc">旅が好きな理由を聞かせてください</p></li>
 <li class="flow__ticket flow__ticket--goal"><span class="flow__no" aria-hidden="true">5</span><h4 class="flow__name">内定</h4><p class="flow__desc">入社は2027年4月です</p></li>
       </ol>
-      <p class="flow__note">エントリーのあとに履歴書とエントリーシートを出していただきます。書類だけで合否は決めません。学部学科も問いません。</p>
+      <p class="flow__note">エントリーのあとに履歴書とエントリーシートを出していただきます。書類選考は行いません。学部学科も問いません。</p>
       <a class="button button--cv" href="seminar.html"><span class="button__inner"><span class="button__text" aria-hidden="true">説明会の予約はこちら</span><span class="button__text">説明会の予約はこちら</span></span><span class="button__icon"><svg class="swallow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#swallow"/></svg></span></a>
     </div>
   </section>
@@ -351,9 +349,7 @@
     <div class="faq__inner">
       <hgroup class="subHeading"><h3 class="subHeading__jp" id="faq-h">説明会で毎回聞かれること</h3><p class="subHeading__en" aria-hidden="true">FAQ</p></hgroup>
       <div class="faq__list">
-<div class="faq__item is-open"><h4 class="faq__h"><button class="faq__q" type="button" id="faq-q1" aria-expanded="true" aria-controls="faq-a1"><span class="faq__qMark" aria-hidden="true">Q</span><span class="faq__qText">旅行の経験が少なくても大丈夫ですか？</span><span class="faq__toggle" aria-hidden="true"></span></button></h4>
-<div class="faq__a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div class="faq__aInner"><div class="faq__aBox"><span class="faq__aMark" aria-hidden="true">A</span><p>入社1ヶ月目に同期全員で1泊2日の「はじめての下見旅」に出ます。下見の歩き方は全員そこで覚えます。</p></div></div></div></div>
-<div class="faq__item"><h4 class="faq__h"><button class="faq__q" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span class="faq__qMark" aria-hidden="true">Q</span><span class="faq__qText">海外に行ったことがありません。応募できますか？</span><span class="faq__toggle" aria-hidden="true"></span></button></h4>
+<div class="faq__item is-open"><h4 class="faq__h"><button class="faq__q" type="button" id="faq-q2" aria-expanded="true" aria-controls="faq-a2"><span class="faq__qMark" aria-hidden="true">Q</span><span class="faq__qText">海外に行ったことがありません。応募できますか？</span><span class="faq__toggle" aria-hidden="true"></span></button></h4>
 <div class="faq__a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div class="faq__aInner"><div class="faq__aBox"><span class="faq__aMark" aria-hidden="true">A</span><p>配属後の最初の3ヶ月は国内旅行の相談だけを担当します。応募資格にも海外経験の条件はありません。</p></div></div></div></div>
 <div class="faq__item"><h4 class="faq__h"><button class="faq__q" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span class="faq__qMark" aria-hidden="true">Q</span><span class="faq__qText">語学ができなくても大丈夫ですか？</span><span class="faq__toggle" aria-hidden="true"></span></button></h4>
 <div class="faq__a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div class="faq__aInner"><div class="faq__aBox"><span class="faq__aMark" aria-hidden="true">A</span><p>語学は応募資格に入っていません。入社後にTOEIC800点以上などを取ると祝い金30,000円が出ます。</p></div></div></div></div>
@@ -366,7 +362,7 @@
 <div class="faq__item"><h4 class="faq__h"><button class="faq__q" type="button" id="faq-q7" aria-expanded="false" aria-controls="faq-a7"><span class="faq__qMark" aria-hidden="true">Q</span><span class="faq__qText">資格は入社前に取っておいたほうがいいですか？</span><span class="faq__toggle" aria-hidden="true"></span></button></h4>
 <div class="faq__a" id="faq-a7" role="region" aria-labelledby="faq-q7"><div class="faq__aInner"><div class="faq__aBox"><span class="faq__aMark" aria-hidden="true">A</span><p>入社前に必要な資格はありません。6ヶ月目に旅程管理主任者の研修があり、2年目に国内旅行業務取扱管理者を会社負担で受験します。</p></div></div></div></div>
 <div class="faq__item"><h4 class="faq__h"><button class="faq__q" type="button" id="faq-q8" aria-expanded="false" aria-controls="faq-a8"><span class="faq__qMark" aria-hidden="true">Q</span><span class="faq__qText">インターンに参加していなくても選考を受けられますか？</span><span class="faq__toggle" aria-hidden="true"></span></button></h4>
-<div class="faq__a" id="faq-a8" role="region" aria-labelledby="faq-q8"><div class="faq__aInner"><div class="faq__aBox"><span class="faq__aMark" aria-hidden="true">A</span><p>インターンへの参加は選考と関係ありません。選考は説明会のあとのエントリーから始まります。エントリーのあとに履歴書とエントリーシートを出していただきますが、書類だけで合否は決めません。</p></div></div></div></div>
+<div class="faq__a" id="faq-a8" role="region" aria-labelledby="faq-q8"><div class="faq__aInner"><div class="faq__aBox"><span class="faq__aMark" aria-hidden="true">A</span><p>インターンへの参加は選考と関係ありません。選考は説明会のあとのエントリーから始まります。エントリーのあとに履歴書とエントリーシートを出していただきます。書類選考は行いません。</p></div></div></div></div>
       </div>
     </div>
     <div class="faq__cta"><a class="button button--cv" href="seminar.html"><span class="button__inner"><span class="button__text" aria-hidden="true">説明会の予約はこちら</span><span class="button__text">説明会の予約はこちら</span></span><span class="button__icon"><svg class="swallow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#swallow"/></svg></span></a></div>
@@ -396,8 +392,8 @@
   </div>
 </footer>
 
-<script src="js/add.js?v=13" defer></script>
-<script src="js/main.js?v=17" defer></script>
-<script src="js/chat.js?v=3" defer></script>
+<script src="js/add.js?v=14" defer></script>
+<script src="js/main.js?v=18" defer></script>
+<script src="js/chat.js?v=6" defer></script>
 </body>
 </html>
