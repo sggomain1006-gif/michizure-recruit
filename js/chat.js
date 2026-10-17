@@ -9,6 +9,7 @@
     greeting: 'こんにちは。ミチヅレ新卒採用の案内係、ツバメのミチです。説明会や募集要項について、わかる範囲でお答えします。',
     suggestions: ['説明会の日程は？', '給与はいくらですか？', '地元で働けますか？', '書類選考はありますか？'],
     note: 'AIが自動で回答しています。',
+    hint: '気になることを聞いてね',
     placeholder: '質問を入力してください',
     avatar: 'assets/img/54_michi_greet-240.webp',
     errorAnswer: 'うまくお答えできませんでした。時間をおいてもう一度お試しください。',
@@ -150,10 +151,12 @@
           '</div>' +
           '<p class="chatBot__note">' + CONFIG.note + '</p>' +
         '</form>' +
-      '</section>';
+      '</section>' +
+      '<p class="chatBot__hint" aria-hidden="true">' + CONFIG.hint + '</p>';
     document.body.appendChild(wrap);
 
     els.trigger = wrap.querySelector('.chatBot__trigger');
+    els.hint = wrap.querySelector('.chatBot__hint');
     els.window = wrap.querySelector('.chatBot__window');
     els.close = wrap.querySelector('.chatBot__close');
     els.log = wrap.querySelector('.chatBot__log');
@@ -247,6 +250,7 @@
     if (isOpen) { return; }
     isOpen = true;
     if (!greeted) { greeted = true; greet(); }
+    hideHintForGood();
     els.window.inert = false;
     els.window.classList.add('is-open');
     els.trigger.setAttribute('aria-expanded', 'true');
@@ -267,8 +271,52 @@
     els.trigger.focus({ preventScroll: true });
   }
 
+  /* ---------- 丸ボタンを出すタイミングと吹き出し ----------
+     丸ボタンは「ミチヅレについて」セクションの真ん中が画面の真ん中に来たところで初めて出す（それより上に戻ると隠す）。
+     吹き出しは丸ボタンが初めて出たときに一緒に出し、数秒で消す。一度チャットを開いたら、その後は出さない */
+  var SHOW_SECTION = '#about';
+  var HINT_SHOW_MS = 6000;
+  var hintDone = false;
+  var shownOnce = false;
+  var hintTimer = null;
+  function triggerShouldShow() {
+    var sec = document.querySelector(SHOW_SECTION);
+    if (!sec) { return true; }
+    var r = sec.getBoundingClientRect();
+    return r.top + r.height / 2 <= window.innerHeight / 2;
+  }
+  function updateTrigger() {
+    var show = triggerShouldShow();
+    root.classList.toggle('is-chatShown', show);
+    if (show && !shownOnce) {
+      shownOnce = true;
+      if (!hintDone) {
+        els.hint.classList.add('is-on');
+        hintTimer = setTimeout(function () { els.hint.classList.remove('is-on'); }, HINT_SHOW_MS);
+      }
+    }
+    if (!show) { els.hint.classList.remove('is-on'); }
+  }
+  function hideHintForGood() {
+    hintDone = true;
+    clearTimeout(hintTimer);
+    if (els.hint) { els.hint.classList.remove('is-on'); }
+  }
+  function bindTrigger() {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) { return; }
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; updateTrigger(); });
+    }, { passive: true });
+    window.addEventListener('resize', updateTrigger);
+    els.hint.addEventListener('click', open);
+    updateTrigger();
+  }
+
   /* ---------- イベント ---------- */
   function bind() {
+    bindTrigger();
     els.trigger.addEventListener('click', function () { if (isOpen) { close(); } else { open(); } });
     els.close.addEventListener('click', close);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen) { close(); } });
@@ -283,7 +331,7 @@
   }
 
   /* CSS を読み終えてから部品を出す（読み込み途中の崩れた丸ボタンを見せない）。ページの表示を優先して load 後に始める */
-  var CSS_HREF = 'css/chat.css?v=3';
+  var CSS_HREF = 'css/chat.css?v=5';
   function init() {
     var link = document.createElement('link');
     link.rel = 'stylesheet';

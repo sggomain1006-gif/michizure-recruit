@@ -52,43 +52,43 @@
   -webkit-backdrop-filter: blur(12rem); backdrop-filter: blur(12rem);
   color: #fff;
 }
-.topStatement__inner { padding: 80rem 22rem 0; }
+.topStatement__inner { padding: 60rem 22rem 0; }
 .statement__copy { margin: 0; font-size: 42rem; font-weight: 900; line-height: 1; letter-spacing: 4.2rem; white-space: nowrap; }
 .statement__line { display: block; }
 .statement__line + .statement__line { margin-top: 8rem; }
 .statement__copy .yorimichi { display: inline-block; margin-right: 6rem; padding: 2rem 8rem 6rem; background: var(--c-accent); color: var(--c-primary); }
-.statement__en { margin: 33rem 0 0; font-family: var(--ff-en); font-size: 15rem; font-weight: 700; line-height: 1.3; letter-spacing: 4.5rem; text-transform: uppercase; opacity: .7; }
+.statement__en { margin: 24rem 0 0; font-family: var(--ff-en); font-size: 15rem; font-weight: 700; line-height: 1.3; letter-spacing: 4.5rem; text-transform: uppercase; opacity: .7; }
 .statement__en span { display: block; }
-.statement__text { margin: 68rem 0 44rem; font-size: 16rem; font-weight: 700; line-height: 2; letter-spacing: .64rem; color: var(--c-paper); }
+.statement__text { margin: 40rem 0 32rem; font-size: 16rem; font-weight: 700; line-height: 2; letter-spacing: .64rem; color: var(--c-paper); }
 .statement__text p { margin: 0 0 16rem; }
-.topStatement__images { position: relative; height: 490rem; margin: 76rem -22rem 0; }
+.topStatement__images { position: relative; height: 490rem; margin: 44rem -22rem 0; }
 /* 写真は道順（ジグザグ）に置き、後ろの点線の道でつなぐ。比率は4枚とも変える */
-.topStatement__images { height: 540rem; }
+.topStatement__images { height: 446rem; }
 .stRoute { position: absolute; z-index: 3; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; filter: drop-shadow(0 0 1.5px rgba(23, 36, 64, .55)); }
 .stRoute__line { fill: none; stroke: var(--c-accent); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 0.1 11; }
 .stRoute__reveal { fill: none; stroke: #fff; stroke-width: 12; stroke-linecap: round; }
 .stPh { position: absolute; overflow: hidden; }
 .stPh img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.stPh--a { width: 236rem; aspect-ratio: 16 / 9; top: 0; left: 0; z-index: 1; }
+.stPh--a { width: 200rem; aspect-ratio: 16 / 9; top: 0; left: 0; z-index: 1; }
 .stPh--a img { object-position: 50% 60%; }
-.stPh--b { width: 170rem; aspect-ratio: 4 / 5; top: 104rem; right: 0; z-index: 2; }
+.stPh--b { width: 150rem; aspect-ratio: 4 / 5; top: 60rem; right: 0; z-index: 2; }
 .stPh--b img { object-position: 62% 50%; }
-.stPh--c { width: 156rem; aspect-ratio: 1; top: 290rem; left: 20rem; z-index: 1; }
+.stPh--c { width: 150rem; aspect-ratio: 1; top: 150rem; left: 20rem; z-index: 1; }
 .stPh--c img { object-position: 50% 22%; }
-.stPh--d { width: 132rem; aspect-ratio: 2 / 3; top: 336rem; right: 28rem; z-index: 2; }
+.stPh--d { width: 120rem; aspect-ratio: 2 / 3; top: 264rem; right: 24rem; z-index: 2; }
 .stPh--d img { object-position: 46% 50%; }
 @media (min-width: 769px) {
   .topStatement__inner { display: flex; padding: 0; }
-  .topStatement__textarea { flex: none; width: 500rem; margin: 118rem 0 169rem 180rem; }
+  .topStatement__textarea { flex: none; width: 500rem; margin: 96rem 0 112rem 180rem; }
   .statement__copy { font-size: 72rem; letter-spacing: 7.2rem; }
   .statement__line + .statement__line { margin-top: 12rem; }
   .statement__copy .yorimichi { padding: 3rem 12rem 9rem; margin-right: 10rem; }
   .statement__en { margin-top: 33rem; font-size: 30rem; letter-spacing: 9rem; }
   .topStatement__images { flex: 1; max-width: 763rem; margin: 0 0 0 auto; height: auto; }
   .stPh--a { width: 420rem; top: 60rem; }
-  .stPh--b { width: 330rem; top: 230rem; right: 20rem; }
-  .stPh--c { width: 300rem; top: 610rem; left: 60rem; }
-  .stPh--d { width: 260rem; top: 670rem; right: 90rem; }
+  .stPh--b { width: 300rem; top: 230rem; right: 50rem; }
+  .stPh--c { width: 300rem; top: 540rem; left: 60rem; }
+  .stPh--d { width: 220rem; top: 625rem; right: 90rem; }
 }
 
 /* ===== about ===== */

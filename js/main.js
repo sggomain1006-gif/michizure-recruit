@@ -2,7 +2,6 @@
   'use strict';
 
   const PC_QUERY = '(min-width: 769px)';
-  const BANNER_SHOW_RATIO = 0.4;
   const RESIZE_DEBOUNCE_MS = 100;
   const BUBBLE_SWAP_MS = 300;
   const AUTOPLAY_MS = 3000;
@@ -22,22 +21,36 @@
   const root = document.documentElement;
   const isReduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- fixed banner (show after 40% of FV) ---------- */
+  /* ---------- fixed banner（FV から表示） ---------- */
   const initBanner = () => {
-    const fv = document.querySelector('.js-fv');
     const banner = document.querySelector('.l-fvBanner');
-    if (!fv || !banner) return;
-    let isTicking = false;
-    const update = () => {
-      isTicking = false;
-      banner.classList.toggle('is-visible', window.scrollY > fv.offsetHeight * BANNER_SHOW_RATIO);
+    if (banner) banner.classList.add('is-visible'); /* FV から最後まで出しておく */
+  };
+
+  /* ---------- FV 背景動画（スマホは縦、PC は横。動きを減らす設定と省データ時は静止画のまま） ---------- */
+  const initFvVideo = () => {
+    const video = document.querySelector('.js-fvVideo');
+    if (!video || isReduced() || (navigator.connection && navigator.connection.saveData)) return;
+    const pc = window.matchMedia('(min-width: 769px)');
+    const setSource = () => {
+      const src = pc.matches ? video.dataset.srcPc : video.dataset.srcSp;
+      if (video.getAttribute('src') === src) return;
+      video.classList.remove('is-playing');
+      video.src = src;
+      video.play().catch(() => {});
     };
-    window.addEventListener('scroll', () => {
-      if (isTicking) return;
-      isTicking = true;
-      requestAnimationFrame(update);
-    }, { passive: true });
-    update();
+    video.addEventListener('playing', () => video.classList.add('is-playing'));
+    pc.addEventListener('change', setSource);
+    setSource();
+    /* FV と、背景が透けて見える Statement を過ぎたら止める */
+    const areas = [document.querySelector('.js-fv'), document.querySelector('.l-topStatement')].filter(Boolean);
+    if (!('IntersectionObserver' in window) || !areas.length) return;
+    const seen = new Set();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => (e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)));
+      if (seen.size) video.play().catch(() => {}); else video.pause();
+    });
+    areas.forEach((a) => io.observe(a));
   };
 
   /* ---------- Statement の道順（写真の中心を通る点線。配置が変わるたびに引き直す） ---------- */
@@ -283,6 +296,7 @@
   };
 
   initBanner();
+  initFvVideo();
   initStatementRoute();
   const start = () => whenIdle(() => { bootScroll(); bootInterview(); });
   if (document.readyState === 'complete') start(); else window.addEventListener('load', start);

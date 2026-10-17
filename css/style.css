@@ -50,7 +50,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .pcOnly { display: none; }
 @media (min-width: 769px) { .spOnly { display: none; } .pcOnly { display: inline; } }
 
-.header__company, .header__btnEn, .fv__brand, .fv__calling { font-family: var(--ff-en); }
+.header__company, .header__btnEn { font-family: var(--ff-en); }
 
 /* ===== header (non-sticky) ===== */
 .l-header { position: absolute; top: 0; left: 0; z-index: 999999; width: 100%; }
@@ -93,7 +93,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   overflow: hidden;
 }
 .l-fv__bg picture { display: block; width: 100%; height: 100%; }
-.l-fv__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
+.l-fv__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+/* 背景動画。最初の1コマと同じ静止画（picture）の上に重ね、再生が始まってから出す */
+.l-fv__video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%;
+  opacity: 0; transition: opacity .6s;
+}
+.l-fv__video.is-playing { opacity: 1; }
 .l-fv__scrim {
   position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(var(--c-scrim), 0) 0%, rgba(var(--c-scrim), 0) 55%, rgba(var(--c-scrim), .42) 80%, rgba(var(--c-scrim), .62) 100%);
@@ -103,47 +110,16 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   min-height: 100vh; min-height: 100dvh;
   border-bottom: 20rem solid var(--c-paper);
 }
-.fv__copy {
-  position: absolute; left: 0; right: 0; bottom: -4rem;
-  width: 360rem; height: 490rem; margin: auto;
-  font-family: var(--ff-fv); font-weight: 900; color: var(--c-primary);
-}
-.fv__copy > span { position: absolute; display: block; white-space: nowrap; }
-.fv__brand { left: 120rem; top: -40rem; font-size: 8rem; font-weight: 700; letter-spacing: .2em; line-height: 1.5; }
-.fv__brand span, .fv__calling span { display: block; }
-.fv__motom { left: 136rem; top: 0; writing-mode: vertical-rl; font-size: 80rem; line-height: 1; letter-spacing: -.04em; }
-.fv__yorimichi { left: 166rem; top: 206rem; writing-mode: vertical-rl; transform: skewY(-12deg); background: var(--c-accent); padding: 6rem 4rem; font-size: 26rem; line-height: 1.08; }
-.fv__no { left: 166rem; top: 318rem; font-size: 30rem; line-height: 1; }
-.fv__motom, .fv__no { -webkit-text-stroke: 3rem #fff; paint-order: stroke fill; }
-.fv__calling { right: 200rem; top: 310rem; padding: 4rem 6rem 4rem 8rem; background: var(--c-primary); color: #fff; text-align: right; font-size: 7rem; font-weight: 700; letter-spacing: .14em; line-height: 1.45; }
-.fv__tsukurite {
-  left: 6rem; bottom: 0; color: #fff;
-  font-size: 70rem; line-height: 1; letter-spacing: -.03em;
-  transform: skewX(-6deg) scaleY(1.6); transform-origin: left bottom;
-}
-@media (max-width: 768px) and (min-aspect-ratio: 360/590) {
-  .fv__copy { transform: scale(.82); transform-origin: bottom center; }
-}
+/* 見出しは画面に出さない（FV は写真だけ）。ページ唯一の h1 として検索と読み上げのために残す */
+.fv__title { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 @media (min-width: 769px) {
-  .l-fv__bg img { object-position: 64% 30%; }
-  .fv__copy {
-    --k: min(1cqh, .75cqw);
-    inset: 72rem 0 20rem 0; width: auto; height: auto; margin: 0;
-    container-type: size;
-  }
-  .fv__brand { left: calc(30cqw + 9 * var(--k)); top: calc(6 * var(--k)); font-size: calc(1.3 * var(--k)); }
-  .fv__motom { left: calc(30cqw - 7.5 * var(--k)); top: calc(4 * var(--k)); font-size: calc(15 * var(--k)); }
-  .fv__yorimichi { left: 37cqw; top: calc(47 * var(--k)); padding: calc(1.2 * var(--k)) calc(.9 * var(--k)); font-size: calc(5.2 * var(--k)); }
-  .fv__no { left: 37cqw; top: calc(66 * var(--k)); font-size: calc(6 * var(--k)); }
-  .fv__calling { right: 65cqw; top: calc(62 * var(--k)); padding: calc(.6 * var(--k)) calc(.9 * var(--k)); font-size: calc(1.2 * var(--k)); }
-  .fv__tsukurite { left: 6cqw; bottom: calc(-1 * var(--k)); font-size: calc(20 * var(--k)); transform: skewX(-6deg) scaleY(1.45); }
 }
 
 /* ===== fixed banner ===== */
 .l-fvBanner {
   position: fixed; z-index: 9;
-  right: 4rem; bottom: calc(12rem + env(safe-area-inset-bottom));
+  right: 0; bottom: calc(12rem + env(safe-area-inset-bottom));
   width: 170rem; height: 60rem;
   opacity: 0; visibility: hidden; transform: translateY(12rem);
   transition: opacity .4s ease, transform .4s ease, visibility 0s linear .4s;
@@ -159,7 +135,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .l-fvBanner__main { font-size: 22rem; }
 .l-fvBanner__sub { margin-top: 3rem; font-size: 11rem; }
-.l-fvBanner__img { position: absolute; right: -2rem; bottom: 0; width: 86rem; height: auto; }
+.l-fvBanner__img { position: absolute; right: 0; bottom: 0; width: 86rem; height: auto; }
 @media (min-width: 769px) {
   .l-fvBanner { width: 340rem; height: 120rem; bottom: 4rem; }
   .l-fvBanner__band { padding-left: 20rem; }

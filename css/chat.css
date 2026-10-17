@@ -28,6 +28,29 @@
   font-size: 10rem; font-weight: 900; line-height: 1; white-space: nowrap;
 }
 .is-chatOpen .chatBot__trigger { opacity: 0; visibility: hidden; transition: opacity var(--chat-dur) ease, visibility 0s linear var(--chat-dur); }
+/* 「ミチヅレについて」の途中までは隠す（chat.js が html に is-chatShown を付ける） */
+html:not(.is-chatShown) .chatBot__trigger { opacity: 0; visibility: hidden; transform: translateY(12rem); transition: opacity var(--chat-dur) ease, transform var(--chat-dur) ease, visibility 0s linear var(--chat-dur); }
+
+/* ---------- 丸ボタンが初めて出たときの吹き出し（丸ボタンの真上・右寄せ） ---------- */
+.chatBot__hint {
+  position: fixed; z-index: 10;
+  right: 8rem; bottom: calc(166rem + env(safe-area-inset-bottom));
+  margin: 0; padding: 7rem 11rem;
+  background: var(--c-white); border: 1.5rem solid var(--c-primary); border-radius: 14rem;
+  color: var(--c-primary); font-size: 12rem; font-weight: 700; line-height: 1.3; white-space: nowrap;
+  box-shadow: 0 4rem 10rem rgba(var(--c-scrim), .18);
+  cursor: pointer;
+  opacity: 0; visibility: hidden; transform: translateY(6rem);
+  transition: opacity .3s ease, transform .3s ease, visibility 0s linear .3s;
+}
+.chatBot__hint::after {
+  content: ''; position: absolute; right: 26rem; bottom: -7rem;
+  width: 11rem; height: 11rem; background: var(--c-white);
+  border-right: 1.5rem solid var(--c-primary); border-bottom: 1.5rem solid var(--c-primary);
+  transform: rotate(45deg);
+}
+.chatBot__hint.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity .3s ease, transform .3s ease; }
+.is-chatOpen .chatBot__hint { opacity: 0; visibility: hidden; }
 
 /* ---------- 窓（スマホも全画面にせず、右下に浮かぶ小さめの窓にする） ---------- */
 .chatBot__window {
@@ -109,6 +132,8 @@
 @media (min-width: 769px) {
   .chatBot__trigger { right: 18rem; bottom: 172rem; width: 76rem; height: 76rem; border-width: 3rem; }
   .chatBot__badge { top: -8rem; left: -14rem; padding: 4rem 8rem; font-size: 13rem; }
+  .chatBot__hint { right: 14rem; bottom: 260rem; padding: 9rem 16rem; font-size: 15rem; border-width: 2rem; border-radius: 18rem; }
+  .chatBot__hint::after { right: 34rem; bottom: -9rem; width: 14rem; height: 14rem; border-width: 2rem; }
   .chatBot__window {
     inset: auto 24rem 24rem auto;
     width: 420rem; max-width: calc(100vw - 48rem); height: min(640rem, calc(100dvh - 48rem));
@@ -127,7 +152,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chatBot__trigger, .chatBot__window, .chatBot__window.is-open { transition: none; }
+  .chatBot__trigger, .chatBot__window, .chatBot__window.is-open, .chatBot__hint, .chatBot__hint.is-on { transition: none; }
   .chatBot__window { transform: none; }
   .chatBot__typing span { animation: none; opacity: .6; }
 }
