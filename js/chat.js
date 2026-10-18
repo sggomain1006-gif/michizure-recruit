@@ -11,7 +11,9 @@
     note: 'AIが自動で回答しています。',
     hint: '気になることを聞いてね',
     placeholder: '質問を入力してください',
-    avatar: 'assets/img/54_michi_greet-240.webp',
+    /* 手を振って動くミチ（SVG）。動きを減らす設定の端末では止まった絵にする */
+    avatar: (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      ? 'assets/img/54_michi_greet-240.webp' : 'assets/img/michi-anim/54_greet.svg',
     errorAnswer: 'うまくお答えできませんでした。時間をおいてもう一度お試しください。',
     maxLength: 200
   };
@@ -272,22 +274,29 @@
   }
 
   /* ---------- 丸ボタンを出すタイミングと吹き出し ----------
-     丸ボタンは「ミチヅレについて」セクションの真ん中が画面の真ん中に来たところで初めて出す（それより上に戻ると隠す）。
-     吹き出しは丸ボタンが初めて出たときに一緒に出し、数秒で消す。一度チャットを開いたら、その後は出さない */
-  var SHOW_SECTION = '#about';
-  var HINT_SHOW_MS = 6000;
+     FV のミチ（js/fv-michi.js）がいるときは、ミチがボタンまで飛んできて着地したら出す（html の is-michiLanded）。
+     ミチがいないとき（動きを減らす設定など）は、FV を少し（SHOW_AT）スクロールしたら出す。一番上まで戻ると隠す。
+     吹き出しは丸ボタンが初めて出たときに一緒に出し、4秒で消す。一度チャットを開いたら、その後は出さない */
+  var SHOW_AT = 0.12; /* FV の高さに対するスクロール量。fv-michi.js の DEPART_AT と揃える */
+  var HINT_SHOW_MS = 4000;
   var hintDone = false;
   var shownOnce = false;
   var hintTimer = null;
   function triggerShouldShow() {
-    var sec = document.querySelector(SHOW_SECTION);
-    if (!sec) { return true; }
-    var r = sec.getBoundingClientRect();
-    return r.top + r.height / 2 <= window.innerHeight / 2;
+    if (document.querySelector('.fvMichi')) { return root.classList.contains('is-michiLanded'); }
+    var fv = document.querySelector('.js-fv');
+    return !fv || window.scrollY > fv.offsetHeight * SHOW_AT;
   }
   function updateTrigger() {
     var show = triggerShouldShow();
+    var wasShown = root.classList.contains('is-chatShown');
     root.classList.toggle('is-chatShown', show);
+    /* ミチが着地した瞬間は、ボタンを弾ませて出す */
+    if (show && !wasShown && root.classList.contains('is-michiLanded')) {
+      els.trigger.classList.remove('is-pop');
+      void els.trigger.offsetWidth;
+      els.trigger.classList.add('is-pop');
+    }
     if (show && !shownOnce) {
       shownOnce = true;
       if (!hintDone) {
@@ -310,6 +319,7 @@
       requestAnimationFrame(function () { ticking = false; updateTrigger(); });
     }, { passive: true });
     window.addEventListener('resize', updateTrigger);
+    document.addEventListener('michi:change', updateTrigger);
     els.hint.addEventListener('click', open);
     updateTrigger();
   }
@@ -331,7 +341,7 @@
   }
 
   /* CSS を読み終えてから部品を出す（読み込み途中の崩れた丸ボタンを見せない）。ページの表示を優先して load 後に始める */
-  var CSS_HREF = 'css/chat.css?v=5';
+  var CSS_HREF = 'css/chat.css?v=7';
   function init() {
     var link = document.createElement('link');
     link.rel = 'stylesheet';

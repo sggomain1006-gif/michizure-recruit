@@ -89,6 +89,8 @@
   };
 
   /* ---------- GSAP: statement route / work pin ---------- */
+  const WORK_PIN_VH = 1; // 働き方の写真を止めて見せる長さ（画面の高さに対する倍率）
+  const WORK_LEAD_VH = 0.3; // 止まる前に写真が動き始める距離（同上）
   const initScroll = () => {
     if (!window.gsap || !window.ScrollTrigger || isReduced()) {
       root.classList.add('noanim');
@@ -118,8 +120,14 @@
     const work = document.querySelector('.js-topWork');
     if (work) {
       gsap.set('.js-topWork-text', rise);
-      ScrollTrigger.create({ trigger: '.js-topWork', start: 'top top', end: 'bottom center+=25%', pin: true, scrub: 1 });
-      const tl = gsap.timeline({ scrollTrigger: { trigger: '.js-topWork', start: 'top top+=40%', end: 'bottom center', scrub: 1 } });
+      /* 写真のエリアが画面に収まりきった位置で止め、止まっている間に写真が出そろうようにする
+         （以前は見出しが上端に来た位置で止めていたため、PC では下の写真が画面の外で動いていた） */
+      const area = work.querySelector('.topWork__imageArea') || work;
+      const pinStart = () => (area.offsetHeight > window.innerHeight ? 'center center' : 'bottom bottom');
+      const pinEnd = () => '+=' + Math.round(window.innerHeight * WORK_PIN_VH);
+      const pinST = ScrollTrigger.create({ trigger: area, start: pinStart, end: pinEnd, pin: work, scrub: 1, invalidateOnRefresh: true });
+      /* 写真は止まる少し手前から集まり始め、止まっている間に出そろう */
+      const tl = gsap.timeline({ scrollTrigger: { trigger: area, start: () => pinST.start - window.innerHeight * WORK_LEAD_VH, end: () => pinST.end, scrub: 1, invalidateOnRefresh: true } });
       // 主役は枠が開きながらカメラを引くように縮む。周りは別々の方向・速さで集まる
       gsap.utils.toArray('.js-topWork-img').forEach((ph) => {
         const from = ph.dataset.from;

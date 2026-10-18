@@ -1,0 +1,42 @@
+/* ===== FV を横切って飛ぶミチ（js/fv-michi.js が .fv の中に枠と img を差し込む） ===== */
+/* 枠からはみ出した分は切り取る。はみ出すとスマホがページ全体を縮小表示してしまう */
+.fvMichi__stage { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+/* 羽を振り上げても先が切れないよう、SVG の枠は羽先まで広げてある（img では枠の外が描かれない）
+   左下の画面外から入り、空の上のほうを波打ちながら右上へ抜ける。飛んだあとは数秒休んでまた来る */
+.fvMichi {
+  position: absolute; left: 0; top: 0; z-index: 2;
+  width: 183rem; height: auto; /* 羽先まで入る枠（730）に広げた分、体の大きさは 150rem 相当のまま */
+  pointer-events: none;
+  animation: fvMichiFly 13s cubic-bezier(.45, 0, .55, 1) 1.2s infinite both;
+  will-change: transform;
+}
+.fvMichi.is-paused { animation-play-state: paused; }
+@keyframes fvMichiFly {
+  0%   { transform: translate(-45vw, 56dvh) rotate(-8deg); }
+  18%  { transform: translate(8vw, 37dvh) rotate(-12deg); }
+  34%  { transform: translate(36vw, 41dvh) rotate(5deg); }
+  52%  { transform: translate(70vw, 32dvh) rotate(-10deg); }
+  64%  { transform: translate(118vw, 20dvh) rotate(-14deg); }
+  100% { transform: translate(118vw, 20dvh) rotate(-14deg); }
+}
+@media (min-width: 769px) {
+  .fvMichi { width: 414rem; }
+  @keyframes fvMichiFly {
+    0%   { transform: translate(-30vw, 61dvh) rotate(-8deg); }
+    18%  { transform: translate(10vw, 37dvh) rotate(-12deg); }
+    34%  { transform: translate(30vw, 45dvh) rotate(5deg); }
+    52%  { transform: translate(52vw, 29dvh) rotate(-10deg); }
+    64%  { transform: translate(110vw, 9dvh) rotate(-14deg); }
+    100% { transform: translate(110vw, 9dvh) rotate(-14deg); }
+  }
+}
+@media (prefers-reduced-motion: reduce) { .fvMichi { display: none; } }
+
+/* スクロールを始めたらチャットボタンへ飛んでいく（js/fv-michi.js がコピーを body に置いて動かす） */
+.is-michiAway .fvMichi { visibility: hidden; }
+.fvMichi__sky { position: fixed; inset: 0; z-index: 11; overflow: hidden; pointer-events: none; } /* 追従バナー（9）とチャットボタン（10）より上 */
+.fvMichi__flyer {
+  position: absolute; left: 0; top: 0;
+  height: auto; pointer-events: none; transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}

@@ -174,10 +174,9 @@
   .topWork__textarea .text { width: 620rem; padding: 0; margin: 0 0 40rem; text-align: center; }
   .data { width: 948rem; margin: 24rem auto 72rem; }
   .data__heading { font-size: 16rem; }
-  .data__list { flex-direction: row; gap: 24rem; align-items: flex-start; padding-top: 34rem; }
-  .data__ticket { --stub: 132rem; flex: 1; min-height: 110rem; }
-  .data__ticket:nth-child(2) { transform: translateY(-16rem); }
-  .data__ticket:nth-child(3) { transform: translateY(-32rem); }
+  /* 3枚は同じ幅・同じ高さ・同じ高さ位置にそろえる（高さは一番長い説明文に合わせて伸びる） */
+  .data__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24rem; align-items: stretch; padding-top: 18rem; }
+  .data__ticket { --stub: 132rem; min-height: 110rem; }
   .data__num { font-size: 44rem; } .data__num--word { font-size: 34rem; } .data__unit { font-size: 20rem; }
   .data__label { font-size: 15rem; } .data__note { font-size: 12rem; }
 }

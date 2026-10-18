@@ -1,5 +1,5 @@
 /* ===== チャットボット（右下の丸ボタン＋窓）===== */
-/* 位置は追従バナー（.l-fvBanner）の上に積む。バナーの上端＝bottom＋ミチの画像の高さ（SP 12+79rem／PC 4+157rem） */
+/* 位置は追従バナー（.l-fvBanner）の左隣。バナーは右端に幅 SP 170rem／PC 340rem、下から SP 12rem／PC 4rem、高さ SP 60rem／PC 120rem */
 .chatBot {
   --chat-dur: .28s;
   --chat-ease: cubic-bezier(.2, .8, .2, 1);
@@ -10,7 +10,7 @@
 /* ---------- 丸ボタン ---------- */
 .chatBot__trigger {
   position: fixed; z-index: 10;
-  right: 10rem; bottom: calc(100rem + env(safe-area-inset-bottom));
+  right: 178rem; bottom: calc(13rem + env(safe-area-inset-bottom));
   width: 58rem; height: 58rem; min-width: 48px; min-height: 48px;
   padding: 0; border: 2rem solid var(--c-primary); border-radius: 50%;
   background: var(--c-white);
@@ -31,10 +31,14 @@
 /* 「ミチヅレについて」の途中までは隠す（chat.js が html に is-chatShown を付ける） */
 html:not(.is-chatShown) .chatBot__trigger { opacity: 0; visibility: hidden; transform: translateY(12rem); transition: opacity var(--chat-dur) ease, transform var(--chat-dur) ease, visibility 0s linear var(--chat-dur); }
 
-/* ---------- 丸ボタンが初めて出たときの吹き出し（丸ボタンの真上・右寄せ） ---------- */
+/* FV のミチが着地したときに弾んで出る（chat.js が is-pop を付ける） */
+.chatBot__trigger.is-pop { animation: chatBotPop .45s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes chatBotPop { 0% { transform: scale(.6); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+
+/* ---------- 丸ボタンが初めて出たときの吹き出し（丸ボタンの真上・バナーの上に出す） ---------- */
 .chatBot__hint {
   position: fixed; z-index: 10;
-  right: 8rem; bottom: calc(166rem + env(safe-area-inset-bottom));
+  right: 172rem; bottom: calc(86rem + env(safe-area-inset-bottom));
   margin: 0; padding: 7rem 11rem;
   background: var(--c-white); border: 1.5rem solid var(--c-primary); border-radius: 14rem;
   color: var(--c-primary); font-size: 12rem; font-weight: 700; line-height: 1.3; white-space: nowrap;
@@ -130,9 +134,9 @@ html:not(.is-chatShown) .chatBot__trigger { opacity: 0; visibility: hidden; tran
 
 /* ---------- PC：右下に浮かぶ窓 ---------- */
 @media (min-width: 769px) {
-  .chatBot__trigger { right: 18rem; bottom: 172rem; width: 76rem; height: 76rem; border-width: 3rem; }
+  .chatBot__trigger { right: 356rem; bottom: 26rem; width: 76rem; height: 76rem; border-width: 3rem; }
   .chatBot__badge { top: -8rem; left: -14rem; padding: 4rem 8rem; font-size: 13rem; }
-  .chatBot__hint { right: 14rem; bottom: 260rem; padding: 9rem 16rem; font-size: 15rem; border-width: 2rem; border-radius: 18rem; }
+  .chatBot__hint { right: 350rem; bottom: 142rem; padding: 9rem 16rem; font-size: 15rem; border-width: 2rem; border-radius: 18rem; }
   .chatBot__hint::after { right: 34rem; bottom: -9rem; width: 14rem; height: 14rem; border-width: 2rem; }
   .chatBot__window {
     inset: auto 24rem 24rem auto;

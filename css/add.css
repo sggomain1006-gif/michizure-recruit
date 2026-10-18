@@ -240,6 +240,9 @@ html.cv-off .l-topPostcard, html.cv-off .l-topRequirements, html.cv-off .l-topFl
 .topInterview__button.michiSay { width: max-content; }
 .michiSay { display: inline-flex; align-items: center; gap: 10rem; width: fit-content; max-width: min(100%, 320rem); min-height: 65rem; margin: 0; }
 .michiSay__img { flex: none; width: 76rem; height: auto; }
+/* 動くミチ（SVG）を包む picture は箱を作らず、img をそのまま並びの要素にする（レイアウトを変えない） */
+.michiSay__pic { display: contents; }
+.michiSay__pic source { display: none; } /* contents にすると source まで並びの要素になり gap が1つ増える */
 .michiSay__bubble { position: relative; flex: 0 1 auto; padding: 12rem 16rem; border: 1.5rem solid var(--c-primary); border-radius: 16rem; background: #fff; color: var(--c-primary); font-size: 14rem; font-weight: 700; line-height: 1.6; letter-spacing: .02em; word-break: auto-phrase; text-wrap: pretty; }
 .michiSay__bubble::before, .michiSay__bubble::after { content: ''; position: absolute; top: 50%; width: 0; height: 0; border-style: solid; }
 .michiSay__bubble::before { left: -10rem; margin-top: -8rem; border-width: 8rem 10rem 8rem 0; border-color: transparent var(--c-primary) transparent transparent; }

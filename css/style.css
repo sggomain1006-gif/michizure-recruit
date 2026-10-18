@@ -18,7 +18,7 @@
   font-weight: 900;
   font-style: normal;
   font-display: block;
-  src: url(../fonts/noto-fv-900.woff2) format('woff2');
+  src: url(../fonts/noto-fv5-900.woff2) format('woff2'); /* FV の文字用に「君が紡ぐ旅。」だけを切り出したもの */
 }
 
 /* ===== unit system: 1rem = 1px @360 (SP) / @1440 (PC) ===== */
@@ -61,12 +61,20 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   height: 64rem;
   background: var(--c-ink);
 }
+/* トップはヘッダーを FV の写真の上に透明で重ねる（説明会ページはクリーム地なので紺のまま） */
+.l-header--overFv .header { background: transparent; }
 .header__company {
+  display: flex; align-items: center; gap: 8rem;
   padding-left: 16rem;
   font-size: 10rem; font-weight: 700; line-height: 1.4; letter-spacing: 3rem;
   color: #fff; white-space: nowrap;
 }
 .header__company span { display: block; }
+.header__companyName { font-family: var(--ff-jp); letter-spacing: .08em; }
+.header__companyJp { font-size: 14rem; font-weight: 900; line-height: 1.3; }
+.header__companySub { margin-top: 2rem; font-size: 10rem; font-weight: 700; line-height: 1.3; letter-spacing: .14em; }
+/* 社名の左のツバメ（タブのアイコンと同じ形と色） */
+.header__mark { flex: none; width: 28rem; height: 28rem; color: var(--c-accent); fill: currentColor; }
 .header__btn {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   flex: none; width: 72rem; padding: 10rem 8.5rem; margin-right: 10rem;
@@ -103,13 +111,37 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .l-fv__video.is-playing { opacity: 1; }
 .l-fv__scrim {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(var(--c-scrim), 0) 0%, rgba(var(--c-scrim), 0) 55%, rgba(var(--c-scrim), .42) 80%, rgba(var(--c-scrim), .62) 100%);
+  background:
+    /* 上端: 透明なヘッダーの白い文字を、雪や明るい空のシーンでも読めるようにする */
+    linear-gradient(180deg, rgba(var(--c-scrim), .55) 0, rgba(var(--c-scrim), .25) 70rem, rgba(var(--c-scrim), 0) 150rem),
+    linear-gradient(180deg, rgba(var(--c-scrim), 0) 0%, rgba(var(--c-scrim), 0) 55%, rgba(var(--c-scrim), .42) 80%, rgba(var(--c-scrim), .62) 100%);
 }
 .fv {
   position: relative; z-index: 1;
   min-height: 100vh; min-height: 100dvh;
   border-bottom: 20rem solid var(--c-paper);
 }
+/* FV 左下の「旅」。参考サイトの「開拓者。」と同じ組み方（極太・横に倒して縦に伸ばす）。大きさは旧「つくり手。」の2倍。
+   色は FV 下端のクリームの帯と同じにして、字の下の部分を帯に沈めてつなげる */
+.fv__tabi {
+  position: absolute; left: 6rem; bottom: -10rem; margin: 0;
+  font-family: var(--ff-fv); font-weight: 900; color: var(--c-paper);
+  font-size: 140rem; line-height: 1; letter-spacing: -.03em; white-space: nowrap;
+  transform: scaleY(1.6); transform-origin: left bottom;
+  pointer-events: none;
+}
+/* FV 右側の縦書き「君が紡ぐ」。左下の「旅」と同じ書体・色・組み方で、「が」「ぐ」だけ小さくして漢字を立てる */
+.fv__kimi {
+  position: absolute; right: 12rem; top: 78rem; margin: 0;
+  writing-mode: vertical-rl;
+  font-family: var(--ff-fv); font-weight: 900; color: var(--c-paper);
+  font-size: 76rem; line-height: 1; letter-spacing: -.02em; white-space: nowrap;
+  transform: scaleY(1.3); transform-origin: right top;
+  text-shadow: 0 0 18rem rgba(var(--c-scrim), .35);
+  pointer-events: none;
+  contain: layout; /* 縦書きの字の箱が行より太く、右へはみ出してスマホのページ幅を広げるので閉じ込める */
+}
+.fv__kana { font-size: .56em; }
 /* 見出しは画面に出さない（FV は写真だけ）。ページ唯一の h1 として検索と読み上げのために残す */
 .fv__title { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
@@ -128,20 +160,23 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .l-fvBanner.is-visible:hover { opacity: .8; }
 .l-fvBanner__band {
   position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: center;
-  padding-left: 10rem;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 0 10rem;
   background: repeating-linear-gradient(-45deg, var(--c-accent-soft) 0 7rem, var(--c-accent-stripe) 7rem 14rem);
   color: var(--c-primary); font-weight: 900; line-height: 1;
 }
-.l-fvBanner__main { font-size: 22rem; }
+.l-fvBanner__main { font-size: 20rem; }
 .l-fvBanner__sub { margin-top: 3rem; font-size: 11rem; }
-.l-fvBanner__img { position: absolute; right: 0; bottom: 0; width: 86rem; height: auto; }
+@media (min-width: 769px) {
+  /* 旧「つくり手。」と同じ計算: k＝FV の高さ（上下の 92rem を除く）の1%と幅の0.75%の小さい方 */
+  .fv__kimi { --k: min((100dvh - 92rem) / 100, .75vw); right: 6vw; top: calc(14 * var(--k)); font-size: min(16 * var(--k), 9vw); text-shadow: 0 0 calc(4 * var(--k)) rgba(var(--c-scrim), .35); }
+  .fv__tabi { --k: min((100dvh - 92rem) / 100, .75vw); left: 6vw; bottom: calc(2 * var(--k) - 19rem); font-size: calc(40 * var(--k)); transform: scaleY(1.45); }
+}
 @media (min-width: 769px) {
   .l-fvBanner { width: 340rem; height: 120rem; bottom: 4rem; }
-  .l-fvBanner__band { padding-left: 20rem; }
-  .l-fvBanner__main { font-size: 44rem; }
+  .l-fvBanner__band { padding: 0 20rem; }
+  .l-fvBanner__main { font-size: 42rem; }
   .l-fvBanner__sub { margin-top: 6rem; font-size: 20rem; }
-  .l-fvBanner__img { width: 172rem; }
 }
 
 /* ===== next section dummy (replaced later) ===== */
@@ -169,7 +204,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ===== header PC ===== */
 @media (min-width: 769px) {
   .header { height: auto; padding: 12rem 0; }
-  .header__company { padding-left: 40rem; margin-right: 277rem; font-size: 11rem; letter-spacing: 2.75rem; }
+  .header__company { gap: 10rem; padding-left: 40rem; margin-right: 205rem; font-size: 11rem; letter-spacing: 2.75rem; }
+  .header__mark { width: 34rem; height: 34rem; }
+  .header__companyJp { font-size: 16rem; }
+  .header__companySub { font-size: 11rem; }
   .header__nav { display: block; position: static; margin: 0; padding: 0; background: none; border-radius: 0; }
   .header__nav ul { display: flex; }
   .header__nav a { padding: 13.5rem 20rem; }
