@@ -84,11 +84,16 @@
       { transform: `translate(${tx}px,${ty}px) scale(${flip * k * 0.6},${k * 0.6}) rotate(0deg)`, opacity: 0 }
     ], { duration: FLIGHT_MS, fill: 'forwards' });
     landTimer = setTimeout(() => { if (state === 'flying') setState('landed'); }, FLIGHT_MS * LAND_AT);
-    anim.onfinish = removeFlyer;
+    /* 飛行中に一番上へ戻ってすぐまた飛ぶと、前の飛行の終わりが新しいミチを消してしまうので、自分のミチだけを片づける */
+    const node = flyer;
+    anim.onfinish = () => { node.remove(); if (flyer === node) flyer = null; };
   }
 
   function removeFlyer() {
-    if (flyer) { flyer.remove(); flyer = null; }
+    if (!flyer) return;
+    flyer.getAnimations().forEach((a) => a.cancel());
+    flyer.remove();
+    flyer = null;
   }
 
   function comeBack() {

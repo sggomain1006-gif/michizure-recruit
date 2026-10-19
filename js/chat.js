@@ -183,8 +183,8 @@
   function addTyping() {
     var row = document.createElement('div');
     row.className = 'chatBot__msg chatBot__msg--bot';
-    row.setAttribute('aria-label', '返答を準備しています');
-    row.innerHTML = '<p class="chatBot__bubble"><span class="chatBot__typing" aria-hidden="true"><span></span><span></span><span></span></span></p>';
+    /* 役割のない div の aria-label は読まれないので、見えない文字で伝える */
+    row.innerHTML = '<p class="chatBot__bubble"><span class="sr-only">返答を準備しています</span><span class="chatBot__typing" aria-hidden="true"><span></span><span></span><span></span></span></p>';
     els.log.appendChild(row);
     scrollToEnd();
     return row;
@@ -329,7 +329,7 @@
     bindTrigger();
     els.trigger.addEventListener('click', function () { if (isOpen) { close(); } else { open(); } });
     els.close.addEventListener('click', close);
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen) { close(); } });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen && !e.isComposing && e.keyCode !== 229) { close(); } /* 変換を取り消す Esc では閉じない */ });
     els.form.addEventListener('submit', function (e) { e.preventDefault(); ask(els.input.value); });
     els.input.addEventListener('input', function () { resizeInput(); updateSend(); });
     els.input.addEventListener('keydown', function (e) {

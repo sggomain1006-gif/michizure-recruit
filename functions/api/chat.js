@@ -16,6 +16,7 @@ const MAX_TOKENS = 500;
 const MAX_MESSAGE_CHARS = 200;
 const MAX_HISTORY_TURNS = 6; /* 直近3往復 */
 const MAX_HISTORY_CHARS = 600;
+const MAX_BODY_BYTES = 32768; /* 質問200字＋履歴6件×600字（日本語は1字3バイト）に十分な余裕を持たせた上限。Content-Length（バイト）と本文の文字数の両方で見て、超えたら断る */
 const SHEET_CACHE_SECONDS = 60;
 const COMPANY = '株式会社ミチヅレ';
 const DEFAULT_UNKNOWN = 'その質問にはこのチャットではお答えできません。会社説明会で社員に直接聞いてみてください。';
@@ -29,7 +30,7 @@ export async function onRequestPost(context) {
     if (!provider) { return json({ ok: false, error: 'not_configured' }, 500); }
 
     const input = await readInput(request);
-    if (input.error) { return json({ ok: false, error: input.error }, 400); }
+    if (input.error) { return json({ ok: false, error: input.error }, input.error === 'too_large' ? 413 : 400); }
 
     const [knowledge, settings] = await Promise.all([loadTab('knowledge'), loadTab('settings')]);
     const unknownAnswer = settingValue(settings, 'unknown_answer') || DEFAULT_UNKNOWN;
@@ -59,8 +60,11 @@ function isAllowedOrigin(request, env) {
 
 /* ---------- 入力の検査 ---------- */
 async function readInput(request) {
+  if (Number(request.headers.get('content-length') || 0) > MAX_BODY_BYTES) { return { error: 'too_large' }; }
   let body;
-  try { body = await request.json(); } catch { return { error: 'invalid_json' }; }
+  const text = await request.text();
+  if (text.length > MAX_BODY_BYTES) { return { error: 'too_large' }; }
+  try { body = JSON.parse(text); } catch { return { error: 'invalid_json' }; }
   const message = typeof body?.message === 'string' ? body.message.trim() : '';
   if (!message) { return { error: 'empty_message' }; }
   if (message.length > MAX_MESSAGE_CHARS) { return { error: 'message_too_long' }; }

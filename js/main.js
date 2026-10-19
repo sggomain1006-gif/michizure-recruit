@@ -32,23 +32,28 @@
     const video = document.querySelector('.js-fvVideo');
     if (!video || isReduced() || (navigator.connection && navigator.connection.saveData)) return;
     const pc = window.matchMedia('(min-width: 769px)');
+    let isVisible = true; /* FV か Statement が画面に入っているか（下の IntersectionObserver が更新する） */
     const setSource = () => {
       const src = pc.matches ? video.dataset.srcPc : video.dataset.srcSp;
       if (video.getAttribute('src') === src) return;
       video.classList.remove('is-playing');
       video.src = src;
-      video.play().catch(() => {});
+      if (isVisible) video.play().catch(() => {}); /* 途中の位置で読み込み直したときは、画面外で再生し始めない */
     };
     video.addEventListener('playing', () => video.classList.add('is-playing'));
     pc.addEventListener('change', setSource);
-    setSource();
+    /* 動画（2〜3MB）は最初の1コマと同じ静止画を先に出しているので、ページの読み込みが終わってから取りに行き、
+       FV の文字やフォント・画像と帯域を取り合わないようにする */
+    if (document.readyState === 'complete') setSource(); else window.addEventListener('load', setSource, { once: true });
     /* FV と、背景が透けて見える Statement を過ぎたら止める */
     const areas = [document.querySelector('.js-fv'), document.querySelector('.l-topStatement')].filter(Boolean);
     if (!('IntersectionObserver' in window) || !areas.length) return;
     const seen = new Set();
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => (e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)));
-      if (seen.size) video.play().catch(() => {}); else video.pause();
+      isVisible = seen.size > 0;
+      if (!video.getAttribute('src')) return; /* 動画はまだ取りに行っていない（load 後に setSource が見て判断する） */
+      if (isVisible) video.play().catch(() => {}); else video.pause();
     });
     areas.forEach((a) => io.observe(a));
   };
@@ -85,7 +90,22 @@
     };
     draw();
     let timer;
-    window.addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(draw, RESIZE_DEBOUNCE_MS / 2); });
+    const redraw = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const before = paths[0] && paths[0].getAttribute('d');
+        draw();
+        /* 道の長さが変わったら、道が伸びるアニメーションの長さも測り直させる */
+        if (window.ScrollTrigger && paths[0] && paths[0].getAttribute('d') !== before) window.ScrollTrigger.refresh();
+      }, RESIZE_DEBOUNCE_MS / 2);
+    };
+    window.addEventListener('resize', redraw);
+    /* 写真の配置を決める sections.css は後から読み込まれるので、窓の大きさが変わらなくても配置が変わったら引き直す */
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(redraw);
+      ro.observe(area);
+      area.querySelectorAll('.js-topStatement-img').forEach((ph) => ro.observe(ph));
+    }
   };
 
   /* ---------- GSAP: statement route / work pin ---------- */
@@ -150,7 +170,6 @@
       clearTimeout(timer);
       timer = setTimeout(() => ScrollTrigger.refresh(true), RESIZE_DEBOUNCE_MS);
     });
-    window.addEventListener('load', () => ScrollTrigger.refresh());
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
   };
 

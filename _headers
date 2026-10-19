@@ -1,9 +1,18 @@
 # Cloudflare Pages の応答ヘッダー
 # 架空の会社の練習作品なので検索エンジンに載せない
+# Content-Security-Policy の中身:
+# script: index.html の head にある1行のスクリプトだけをハッシュで許可（文言を変えたらハッシュも計算し直す）。CSS を後から効かせる切り替えもこのスクリプトが行うので、onload 属性（'unsafe-hashes' が要り古い Safari で CSS が当たらなくなる）は使わない
+# connect: チャットのスプシ（公開CSV。googleusercontent へ転送される）と、説明会フォームの送信先（GAS）
+# font: Google Fonts の分割ファイル（自前の切り出しに無い字がチャットに出たときだけ読む）。data: は swiper のアイコン
 /*
   X-Robots-Tag: noindex, nofollow
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-tFpFDQ0Zv0Tz/pnFZehzjeuDYGVtbQ42M09Hx43keac='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:; media-src 'self'; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://script.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
 
 # CSS・JS は ?v= を上げて更新を届けるので長く持たせてよい
 /css/*

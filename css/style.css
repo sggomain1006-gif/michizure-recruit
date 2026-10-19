@@ -148,6 +148,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 @media (min-width: 769px) {
 }
 
+/* Statement の点線の SVG。本来の指定は後から読む sections.css にあり、そちらが後勝ちで上書きする。
+   それまでの間に流れの中で場所を取ってレイアウトがずれる（CLS）ので、大きさ0で流れから外しておく */
+.stRoute { position: absolute; width: 0; height: 0; }
+
 /* ===== fixed banner ===== */
 .l-fvBanner {
   position: fixed; z-index: 9;
